@@ -19,3 +19,16 @@ export async function signInRequest(data: signInRequestData) {
     },
   };
 }
+
+export async function recoverUserInformation() {
+  await delay();
+
+  return {
+    token: uuid(),
+    user: {
+      name: "Júnior Khaled",
+      email: "jk@email.com",
+      avatar_url: "https://github.com/khalegjr.png",
+    },
+  };
+}
