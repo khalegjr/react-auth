@@ -6,6 +6,7 @@ import { parseCookies } from "nookies";
 import { Fragment, useContext, useEffect } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import { api } from "./services/api";
+import { getAPIClient } from "./services/axios";
 
 const navigation = ["Dashboard", "Team", "Projects", "Calendar", "Reports"];
 const profile = ["Your Profile", "Settings"];
@@ -18,7 +19,7 @@ export default function Dashboard() {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    api.get("/users");
+    api.get("/category"); // requisição do lado do browser
   }, []);
 
   return (
@@ -233,6 +234,7 @@ export default function Dashboard() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const apiClient = getAPIClient(ctx);
   const { ["nextauth.token"]: token } = parseCookies(ctx);
 
   if (!token) {
@@ -243,6 +245,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+
+  await apiClient.get("/users"); // requisição do lado do server
 
   return {
     props: {},
