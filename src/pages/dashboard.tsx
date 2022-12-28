@@ -1,8 +1,9 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import Head from "next/head";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import { AuthContext } from "./contexts/AuthContext";
+import { api } from "./services/api";
 
 const navigation = ["Dashboard", "Team", "Projects", "Calendar", "Reports"];
 const profile = ["Your Profile", "Settings"];
@@ -13,6 +14,11 @@ function classNames(...classes) {
 
 export default function Dashboard() {
   const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    api.get("/users");
+  }, []);
+
   return (
     <div>
       <Head>
